@@ -5,9 +5,12 @@ import jpabook.jpashop.domain.item.Item;
 import jpabook.jpashop.repository.ItemRepository;
 import jpabook.jpashop.repository.MemberRepository;
 import jpabook.jpashop.repository.OrderRepository;
+import jpabook.jpashop.repository.OrderSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -54,9 +57,9 @@ public class OrderService {
     }
 
     /**
-     * 주문 조회(미완성)
+     * 주문 조회
      */
-    public void searchOrder() {
-
+    public List<Order> findOrders(OrderSearch orderSearch) {
+        return orderRepository.findAllByJpqlCriteria(orderSearch);
     }
 }

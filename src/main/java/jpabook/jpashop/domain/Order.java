@@ -22,11 +22,11 @@ public class Order {
     private Member member;
 
     // remind check!!
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @JoinColumn(name = "DELIVERY_ID")
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Delivery delivery;
 
     @Column(name = "ORDERDATE")
