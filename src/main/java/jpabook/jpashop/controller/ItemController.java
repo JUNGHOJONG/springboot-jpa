@@ -56,13 +56,14 @@ public class ItemController {
     @GetMapping("/items/{id}/edit")
     public String updateItem(@PathVariable Long id, Model model) {
         Book item = (Book) itemService.findOne(id);
-        BookForm form = new BookForm();
-        form.setId(item.getId());
-        form.setName(item.getName());
-        form.setPrice(item.getPrice());
-        form.setStockQuantity(item.getStockQuantity());
-        form.setIsbn(item.getIsbn());
-        form.setAuthor(item.getAuthor());
+        BookForm form = BookForm.builder()
+                                .id(item.getId())
+                                .name(item.getName())
+                                .price(item.getPrice())
+                                .stockQuantity(item.getStockQuantity())
+                                .author(item.getAuthor())
+                                .isbn(item.getIsbn())
+                                .build();
 
         model.addAttribute("form", form);
 
@@ -75,21 +76,7 @@ public class ItemController {
      */
     @PostMapping("/items/{id}/edit")
     public String update(@ModelAttribute("form") BookForm form) {
-        System.out.println("id : " + form.getId());
-        System.out.println("name : " + form.getName());
-        System.out.println("price : " + form.getPrice());
-        System.out.println("quantity : " + form.getStockQuantity());
-        System.out.println("author : " + form.getAuthor());
-        System.out.println("isbn : " + form.getIsbn());
-        Book book = new Book();
-        book.setId(form.getId());
-        book.setName(form.getName());
-        book.setPrice(form.getPrice());
-        book.setStockQuantity(form.getStockQuantity());
-        book.setAuthor(form.getAuthor());
-        book.setIsbn(form.getIsbn());
-
-        itemService.saveItem(book);
+        itemService.updateItem(form.getId(), form.getName(), form.getPrice(), form.getStockQuantity());
         return "redirect:/items";
     }
 }
